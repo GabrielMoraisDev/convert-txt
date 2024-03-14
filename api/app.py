@@ -5,9 +5,14 @@ import os
 app = Flask(__name__)
 
 def process_text_file(file):
-    lines = file.read().decode('utf-8').splitlines()
+    try:
+        lines = file.read().decode('utf-8').splitlines()
+    except UnicodeDecodeError:
+        # Se a decodificação utf-8 falhar, tente com outra codificação
+        lines = file.read().decode('latin-1').splitlines()
     data = [line.strip().split("  ") for line in lines]
     return data
+
 
 def create_excel_file(data):
     wb = openpyxl.Workbook()
