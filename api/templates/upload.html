@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TXT to EXCEL</title>
+    <link rel="stylesheet" href="https://planit-css.netlify.app/2.0/planit.css">
+    <link rel="icon" type="image/x-icon" href="https://planit-css.netlify.app/2.0/img/planit.png">
+    <script src="https://planit-css.netlify.app/2.0/js/script.js"></script>
+</head>
+
+<style>.custom-file-upload input[type="file"] {display: none;}</style>
+
+<body class="font1 bg-nightstar"  style="--custom: var(--royal);">
+    <nav class="h-3-05 w-full bg-g3 flex fixed top-0" style="--bg-custom: #0d1116; --bg-custom2: #131421; --bg-custom3: #0d1116;">
+      <div class="mg-left-2 w-3-05 h-full absolute left-0 center-v-screen"><img src="https://planit-css.netlify.app/2.0/img/planit-white.png" alt="PlanitLogo" class="m-none op-07 fade-05 hover-op-1 pointer w-full-70 h-full-70 center-screen absolute"></div>
+        <div class="mg-left-2 w-30 h-full absolute center-h-screen flex ctr auto text-center white m-none">
+          <a href="#" class="font-09 mg-h-1 link-left fade-05 pointer" style="--h-custom: 1px; --custom: #fff;"><i class="ctr auto text-center bi bi-journal-text mg-right-03"></i>TXT TO EXCEL</a>
+        </div>
+        <div class="mg-right-2 w-12 h-full absolute right-0 m-center-h-screen top-0 ctr flex">
+          <a href="#" target="_blank" class="h-1-05 w-1-05 mg-h-05 b-radius-full b-white b-solid b-w-01 flex ctr pointer op-07 fade-03 hover-op-1 relative overflow-hidden flex ctr" onmouseenter="replaceId(['feature'], ['left--3', 'fade-0'], ['left-3', 'fade-08'])" onmouseleave="replaceId(['feature'], ['left-3', 'fade-08'], ['left--3', 'fade-0'])"><div id="feature" class="fade-08 bg-white w-1 h-10 r-40 absolute left--3"></div><i class="white font-1 flex ctr bi bi-linkedin"></i></a>
+          <a href="#" target="_blank" class="h-1-05 w-1-05 mg-h-05 b-radius-full b-white b-solid b-w-01 flex ctr pointer op-07 fade-03 hover-op-1 relative overflow-hidden flex ctr" onmouseenter="replaceId(['feature1'], ['left--3', 'fade-0'], ['left-3', 'fade-08'])" onmouseleave="replaceId(['feature1'], ['left-3', 'fade-08'], ['left--3', 'fade-0'])"><div id="feature1" class="fade-08 bg-white w-1 h-10 r-40 absolute left--3"></div><i class="white font-1 flex ctr bi bi-instagram"></i></a>
+          <a href="#" target="_blank" class="h-1-05 w-1-05 mg-h-05 b-radius-full b-white b-solid b-w-01 flex ctr pointer op-07 fade-03 hover-op-1 relative overflow-hidden flex ctr" onmouseenter="replaceId(['feature2'], ['left--3', 'fade-0'], ['left-3', 'fade-08'])" onmouseleave="replaceId(['feature2'], ['left-3', 'fade-08'], ['left--3', 'fade-0'])"><div id="feature2" class="fade-08 bg-white w-1 h-10 r-40 absolute left--3"></div><i class="white font-1-04 flex ctr bi bi-facebook"></i></a>
+          <a href="#" target="_blank" class="h-1-05 w-1-05 mg-h-05 b-radius-full b-white b-solid b-w-01 flex ctr pointer op-07 fade-03 hover-op-1 relative overflow-hidden flex ctr" onmouseenter="replaceId(['feature3'], ['left--3', 'fade-0'], ['left-3', 'fade-08'])" onmouseleave="replaceId(['feature3'], ['left-3', 'fade-08'], ['left--3', 'fade-0'])"><div id="feature3" class="fade-08 bg-white w-1 h-10 r-40 absolute left--3"></div><i class="white font-1-04 flex ctr bi bi-github"></i></a>
+        </div>
+    </nav>
+
+    <main class="w-full h-vh-100 bg-custom white flex ctr" style="--bg-custom: var(--console);">
+
+    <div class="inline">
+    <h1 class="auto text-center">Converta seus arquivos TXT para EXCEL rapidamente!</h1>
+
+    <div class="flex font-5 auto text-center ctr">
+        <i class="bi mg-h-1 bi-filetype-txt"></i>
+        <i class="bi mg-h-1 bi-arrow-right"></i>
+        <i class="bi mg-h-1 bi-filetype-xlsx"></i>
+    </div>
+
+    <div class="bg-transparent b-white b-radius-1 b-solid b-w-01 w-full-80 h-10 auto flex ctr text-center">
+
+    <form action="/upload" method="post" enctype="multipart/form-data" id="formin">
+        <div class="custom-file-upload">
+            <input type="file" name="file" accept=".txt" required id="fileInput" onchange="subst()"/>
+            <label for="fileInput"><div id="filename" class="btn-slice hover-scale-1-01 bg-transparent b-white b-w-01 b-solid white bold pd-h-1 pd-v-05 b-radius-05 pointer fade-03">Escolha um arquivo</div></label>
+        </div>
+        <button type="submit" value="Upload" id="btn" class="none btn-fill bg-white pd-h-4 h-2-02 pointer fade-03 bold font1 font-1 mg-top-07 hover-white" style="--bg-custom: var(--royal-dark-2);"><label onclick="submity()" class="one-row pointer z-index-3 mg-0 absolute center-screen">Converter<i class="bi mg-left-05 font-1 bi-arrow-right"></i></label></button>
+    </form>
+
+        <script>
+            function subst() {
+                var txt = document.getElementById('fileInput').value;
+
+                
+                var btn = document.getElementById('btn');
+                console.log(txt);
+
+                var partes = txt.split('\\');
+                var conteudo = partes[partes.length - 1];
+
+                btn.classList.replace('none', 'block');
+                btn.classList.add('auto');
+
+                document.getElementById('filename').innerHTML = conteudo;
+                document.getElementById('filename').classList.replace('b-white', 'b-custom');
+            }
+
+            function submity() {
+                document.getElementById('formin').submit();
+            }
+        </script>
+
+    </div>
+
+    </div>
+    </main>
+
+
+</body>
+</html>
