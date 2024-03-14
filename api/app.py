@@ -27,11 +27,16 @@ def upload():
     if request.method == 'POST':
         file = request.files['file']
         if file:
+        
             data = process_text_file(file)
             wb = create_excel_file(data)
             filename = 'cleaned.xlsx'
-            wb.save(filename)
-            return send_file(filename, as_attachment=True)
+            path = 'api/'
+            wb.save(path+filename)
+            arquivo = os.path.splitext(filename)[0]
+            os.chmod(path+filename, 0o777)
+            
+            return send_file(filename, as_attachment=True, download_name=arquivo+'.xlsx')
     return 'Error processing file.'
 
 if __name__ == '__main__':
