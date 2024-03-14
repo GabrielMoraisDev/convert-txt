@@ -1,18 +1,20 @@
 from flask import Flask, render_template, request, send_file
 import openpyxl
-import os
+import io
 
 app = Flask(__name__)
 
 def process_text_file(file):
     try:
         lines = file.read().decode('utf-8').splitlines()
+        print("Decodificação utf-8 bem sucedida.")
     except UnicodeDecodeError:
-        # Se a decodificação utf-8 falhar, tente com outra codificação
+        # Se a decodificação utf-8 falhar, tenta com outra codificação
         lines = file.read().decode('latin-1').splitlines()
+        print("Decodificação utf-8 falhou. Tentando com latin-1.")
+        
     data = [line.strip().split("  ") for line in lines]
     return data
-
 
 def create_excel_file(data):
     wb = openpyxl.Workbook()
@@ -32,16 +34,19 @@ def upload():
     if request.method == 'POST':
         file = request.files['file']
         if file:
-        
             data = process_text_file(file)
-            wb = create_excel_file(data)
-            filename = 'cleaned.xlsx'
-            path = 'api/'
-            wb.save(path+filename)
-            arquivo = os.path.splitext(filename)[0]
-            os.chmod(path+filename, 0o777)
-            
-            return send_file(filename, as_attachment=True, download_name=arquivo+'.xlsx')
+            if data:
+                wb = create_excel_file(data)
+                
+                # Salva o arquivo Excel em memória
+                output = io.BytesIO()
+                wb.save(output)
+                output.seek(0)
+                
+                # Retorna o arquivo Excel como um anexo para download
+                return send_file(output, as_attachment=True, download_name='converted.xlsx')
+            else:
+                return 'Os dados do arquivo estão vazios.'
     return 'Error processing file.'
 
 if __name__ == '__main__':
