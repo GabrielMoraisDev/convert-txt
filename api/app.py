@@ -1,6 +1,7 @@
 import openpyxl
 from flask import Flask, render_template, request, send_file
 import io
+import time
 
 app = Flask(__name__)
 
@@ -14,10 +15,11 @@ def process_text_file(file):
         decoded_lines.append(decoded_line)
         line_count += 1
 
-        if line_count == 1000:
+        if line_count == 100:
             partial_data.append(decoded_lines)
             decoded_lines = []
             line_count = 0
+            time.sleep(1)  # Intervalo de 1 segundo entre cada 100 linhas
 
     # Adiciona o restante dos dados, caso existam
     if decoded_lines:
