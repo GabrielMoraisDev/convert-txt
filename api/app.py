@@ -6,6 +6,7 @@ import time
 app = Flask(__name__)
 
 def process_text_file(file):
+<<<<<<< HEAD
     decoded_lines = []
     line_count = 0
     partial_data = []
@@ -14,6 +15,18 @@ def process_text_file(file):
         decoded_line = line.decode('utf-8').strip().split("  ")
         decoded_lines.append(decoded_line)
         line_count += 1
+=======
+    try:
+        lines = file.read().decode('utf-8').splitlines()
+        print("Decodificação utf-8 bem sucedida.")
+    except UnicodeDecodeError:
+        # Se a decodificação utf-8 falhar, tenta com outra codificação
+        lines = file.read().decode('latin-1').splitlines()
+        print("Decodificação utf-8 falhou. Tentando com latin-1.")
+        
+    data = [line.strip().split("  ") for line in lines]
+    return data
+>>>>>>> parent of ca737f1 (Update)
 
         if line_count == 100:
             partial_data.append(decoded_lines)
@@ -46,6 +59,7 @@ def upload():
     if request.method == 'POST':
         file = request.files['file']
         if file:
+<<<<<<< HEAD
             partial_data = process_text_file(file)
             if partial_data:
                 output_files = []
@@ -67,15 +81,28 @@ def upload():
                 combined_wb.save(combined_filename)
 
                 # Fazendo download do arquivo combinado
+=======
+            data = process_text_file(file)
+            if data:
+                wb = create_excel_file(data)
+                
+                # Salva o arquivo Excel em memória
+>>>>>>> parent of ca737f1 (Update)
                 output = io.BytesIO()
                 with open(combined_filename, 'rb') as f:
                     output.write(f.read())
                 output.seek(0)
+<<<<<<< HEAD
 
                 return send_file(output, as_attachment=True, download_name='combined.xlsx')
+=======
+                
+                # Retorna o arquivo Excel como um anexo para download
+                return send_file(output, as_attachment=True, download_name='converted.xlsx')
+>>>>>>> parent of ca737f1 (Update)
             else:
                 return 'Os dados do arquivo estão vazios.'
-    return 'Erro ao processar o arquivo.'
+    return 'Error processing file.'
 
 if __name__ == '__main__':
     app.run(debug=True)
