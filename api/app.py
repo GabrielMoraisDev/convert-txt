@@ -6,15 +6,19 @@ app = Flask(__name__)
 
 def process_text_file(file):
     try:
-        lines = file.read().decode('utf-8').splitlines()
+        decoded_lines = []
+        for line in file:
+            decoded_line = line.decode('utf-8').strip().split("  ")
+            decoded_lines.append(decoded_line)
         print("Decodificação utf-8 bem sucedida.")
     except UnicodeDecodeError:
-        # Se a decodificação utf-8 falhar, tenta com outra codificação
-        lines = file.read().decode('latin-1').splitlines()
+        decoded_lines = []
+        for line in file:
+            decoded_line = line.decode('latin-1').strip().split("  ")
+            decoded_lines.append(decoded_line)
         print("Decodificação utf-8 falhou. Tentando com latin-1.")
-        
-    data = [line.strip().split("  ") for line in lines]
-    return data
+
+    return decoded_lines
 
 def create_excel_file(data):
     wb = openpyxl.Workbook()
@@ -37,17 +41,17 @@ def upload():
             data = process_text_file(file)
             if data:
                 wb = create_excel_file(data)
-                
+
                 # Salva o arquivo Excel em memória
                 output = io.BytesIO()
                 wb.save(output)
                 output.seek(0)
-                
+
                 # Retorna o arquivo Excel como um anexo para download
                 return send_file(output, as_attachment=True, download_name='converted.xlsx')
             else:
                 return 'Os dados do arquivo estão vazios.'
-    return 'Error processing file.'
+    return 'Erro ao processar o arquivo.'
 
 if __name__ == '__main__':
     app.run(debug=True)
